@@ -45,11 +45,15 @@ public class GitHubApplication extends Application {
         picasso = component.getPicasso();
     }
 
-    public GitHubApplication get(Activity activity) {
+    public static GitHubApplication get(Activity activity) {
         return (GitHubApplication) activity.getApplication();
     }
 
     public GithubService getGitHubService() {
         return gitHubService;
+    }
+
+    public Picasso getPicasso() {
+        return picasso;
     }
 }

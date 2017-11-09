@@ -2,20 +2,49 @@ package learn.ebpearls.com.daggerdemo.screens.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.Locale;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import learn.ebpearls.com.daggerdemo.R;
+import learn.ebpearls.com.daggerdemo.models.GithubRepo;
 
 @SuppressLint("ViewConstructor")
 public class RepoListItem extends FrameLayout {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.fullDate();
+
     private final Picasso picasso;
+
+    @BindView(R.id.user_avatar)
+    ImageView avatarImage;
+
+    @BindView(R.id.repo_name)
+    TextView name;
+
+    @BindView(R.id.repo_description)
+    TextView description;
+
+    @BindView(R.id.repo_stars)
+    TextView stars;
+
+    @BindView(R.id.repo_issues)
+    TextView issues;
+
+    @BindView(R.id.repo_forks)
+    TextView forks;
+
+    @BindView(R.id.repo_updated_at)
+    TextView updatedAt;
 
     public RepoListItem(Context context, Picasso picasso) {
         super(context);
@@ -24,5 +53,15 @@ public class RepoListItem extends FrameLayout {
         ButterKnife.bind(this);
     }
 
+    public void setRepo(GithubRepo githubRepo) {
+        Locale locale = getResources().getConfiguration().locale;
+        name.setText(githubRepo.name);
+        description.setVisibility(TextUtils.isEmpty(githubRepo.description) ? GONE : VISIBLE);
+        description.setText(githubRepo.description);
 
+        stars.setText(String.format(locale, "%d", githubRepo.stargazersCount));
+        issues.setText(String.format(locale, "%d", githubRepo.openIssuesCount));
+        forks.setText(String.format(locale, "%d", githubRepo.forksCount));
+
+    }
 }
