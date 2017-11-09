@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,8 +33,9 @@ public class HomeActivity extends Activity {
     ListView listView;
 
     Call<List<GithubRepo>> reposCall;
+    @Inject
     GithubService githubService;
-    Picasso picasso;
+    @Inject
     AdapterRepos adapterRepos;
 
     @Override
@@ -42,9 +43,6 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-
-        githubService = GitHubApplication.get(this).getGitHubService();
-        picasso = GitHubApplication.get(this).getPicasso();
 
         HomeActivityComponent homeActivityComponent = DaggerHomeActivityComponent.builder()
                 .homeActivityModule(new HomeActivityModule(this))
@@ -57,6 +55,7 @@ public class HomeActivity extends Activity {
         listView.setAdapter(adapterRepos);
 
         reposCall = githubService.getAllRepos();
+
         reposCall.enqueue(new Callback<List<GithubRepo>>() {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {

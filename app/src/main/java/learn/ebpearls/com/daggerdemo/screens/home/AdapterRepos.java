@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,7 +63,7 @@ public class AdapterRepos extends BaseAdapter {
         return repoListItem;
     }
 
-    public void swapdata(List<GithubRepo> githubRepos) {
+    public void swapdata(Collection<GithubRepo> githubRepos) {
         repoList.clear();
         if (githubRepos != null) {
             repoList.addAll(githubRepos);
