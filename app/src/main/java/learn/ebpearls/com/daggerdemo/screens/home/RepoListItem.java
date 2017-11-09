@@ -63,5 +63,10 @@ public class RepoListItem extends FrameLayout {
         issues.setText(String.format(locale, "%d", githubRepo.openIssuesCount));
         forks.setText(String.format(locale, "%d", githubRepo.forksCount));
 
+        updatedAt.setText(getResources()
+                .getString(R.string.last_pushed, DATE_TIME_FORMATTER.print(githubRepo.updatedAt)));
+        picasso.load(githubRepo.owner.avatarUrl)
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .into(avatarImage);
     }
 }

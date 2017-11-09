@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DaggerDemo</string>
+    <string name="last_pushed"><![CDATA[<string name=\"last_pushed\">Last Pushed %s</string>]]></string>
 </resources>

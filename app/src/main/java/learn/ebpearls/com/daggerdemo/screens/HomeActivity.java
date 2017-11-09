@@ -12,10 +12,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import learn.ebpearls.com.daggerdemo.DaggerHomeActivityComponent;
 import learn.ebpearls.com.daggerdemo.GitHubApplication;
+import learn.ebpearls.com.daggerdemo.HomeActivityComponent;
+import learn.ebpearls.com.daggerdemo.HomeActivityModule;
 import learn.ebpearls.com.daggerdemo.R;
 import learn.ebpearls.com.daggerdemo.models.GithubRepo;
 import learn.ebpearls.com.daggerdemo.network.GithubService;
+import learn.ebpearls.com.daggerdemo.screens.home.AdapterRepos;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +45,15 @@ public class HomeActivity extends Activity {
 
         githubService = GitHubApplication.get(this).getGitHubService();
         picasso = GitHubApplication.get(this).getPicasso();
-        adapterRepos = new AdapterRepos(this, picasso);
+
+        HomeActivityComponent homeActivityComponent = DaggerHomeActivityComponent.builder()
+                .homeActivityModule(new HomeActivityModule(this))
+                .gitHubApplicationComponent(GitHubApplication.get(this).getComponent())
+                .build();
+
+
+        homeActivityComponent.injectHomeActivity(this);
+
         listView.setAdapter(adapterRepos);
 
         reposCall = githubService.getAllRepos();
@@ -56,6 +68,13 @@ public class HomeActivity extends Activity {
                 Toast.makeText(HomeActivity.this, "Error getting repos " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (reposCall != null) {
+            reposCall.cancel();
+        }
     }
 }

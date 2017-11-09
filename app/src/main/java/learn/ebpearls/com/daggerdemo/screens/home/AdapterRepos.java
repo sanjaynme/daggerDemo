@@ -1,4 +1,4 @@
-package learn.ebpearls.com.daggerdemo.screens;
+package learn.ebpearls.com.daggerdemo.screens.home;
 
 import android.content.Context;
 import android.view.View;
@@ -13,13 +13,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import learn.ebpearls.com.daggerdemo.models.GithubRepo;
-import learn.ebpearls.com.daggerdemo.screens.home.RepoListItem;
+import learn.ebpearls.com.daggerdemo.screens.HomeActivity;
 
 /**
  * Created by Dell on 11/9/2017.
  */
 
-class AdapterRepos extends BaseAdapter {
+public class AdapterRepos extends BaseAdapter {
     private final List<GithubRepo> repoList = new ArrayList<>(0);
     private final Context context;
     private final Picasso picasso;
